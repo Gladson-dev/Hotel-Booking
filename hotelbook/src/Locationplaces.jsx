@@ -1,9 +1,9 @@
-import React,{useState,useEffect,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Locationplaces.css";
 import './index.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; 
 import { FaSearch } from "react-icons/fa";
-import { Facilities,  Info, Overview, Reviews } from "./LocationContent";
+import { Facilities, Info, Overview, Reviews } from "./LocationContent";
 import { Facilities2, Info2, Overview2, Reviews2 } from "./LocationContent2";
 import { Facilities3, Info3, Overview3, Reviews3 } from "./LocationContent3";
 import { Facilities4, Info4, Overview4, Reviews4 } from "./LocationContent4";
@@ -19,18 +19,31 @@ import LocationSelector from "./Location";
 import CalendarButton from "./CalendarButton";
 import RoomSelector from "./Travellers";
 
+const defaultHotel = {
+  review: "⭐⭐⭐⭐",
+  name: "Lemon Tree Hotel White",
+  location: "Bengaluru, India",
+  image: "https://i.pinimg.com/474x/3f/a2/6c/3fa26c3564eafc83ba09864b402f2c1a.jpg",
+  rating: "6.7",
+  reviews: "120 reviews",
+  day: "1 day,2 adults",
+  rupees: "₹ 2,845",
+  tax: "+₹120 taxes and charges",
+  path: "/hotel/LemonTreeHotelWhite",
+};
+
 function Place1() {
   const [activeTab, setActiveTab] = useState(0);
   const sectionRefs = useRef([]);
   const navigate = useNavigate(); 
 
   const tabs = [
-    { name: "Overview", id: "overview", path: <Overview /> },
+    { name: "Overview", id: "overview", path: <Overview hotel={defaultHotel} /> },
     { name: "Info & prices", id: "info-prices", path: <Info /> },
     { name: "Facilities", id: "facilities", path: <Facilities /> },
     { name: "Reviews", id: "reviews", path: <Reviews /> },
-  ];
-
+  ];  
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -75,6 +88,7 @@ function Place1() {
     }
   };
 
+
   return (
     <>
       <div className="check">
@@ -118,6 +132,18 @@ function Place1() {
     </>
   );
 }
+const hotel2 = {
+    review: "⭐⭐⭐⭐",
+    name: "Vividus",
+    location: "Bengaluru, India",
+    image: "https://media-cdn.tripadvisor.com/media/photo-s/1b/94/d6/2c/exterior.jpg",
+   rating: "6.7",
+   reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 3,475",
+   tax: "+₹120 taxes and charges",
+    path: "/hotel/Vividus",
+  };
 function Place2()
 {
     const [activeTab, setActiveTab] = useState(0);
@@ -212,6 +238,18 @@ function Place2()
       </>
     );
 }
+const hotel3 = {
+    review: "⭐⭐⭐⭐",
+    name: "Hotel City Tower",
+  location: "Chennai, India",
+    image: "https://i.pinimg.com/736x/5f/00/9c/5f009c3e545392390366055e941803a0.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+   day: "1 day,2 adults",
+   rupees: "₹ 1,924",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/HotelCityTower",
+  };
 function Place3()
 {
   const [activeTab, setActiveTab] = useState(0);
@@ -304,8 +342,19 @@ function Place3()
     </div>
     </>
   );
-
 }
+const hotel4 = {
+   review: "⭐⭐⭐⭐",
+    name: "Hotel Chanchal Continental",
+   location: "New Delhi, India",
+    image: "https://i.pinimg.com/736x/0c/c8/a1/0cc8a1c48919442c8b098e0e83e00c79.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 2,399",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/HotelChanchalContinental",
+  };
 function Place4()
 {
     
@@ -401,6 +450,18 @@ function Place4()
   );
 
 }
+const hotel5 = {
+    review: "⭐⭐⭐⭐",
+    name: "Olice Zip Koramangala",
+   location: "Bengaluru, India",
+   image: "https://i.pinimg.com/736x/49/b8/10/49b81003219eb29255680f09c2364800.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 1,642",
+    tax: "+₹120 taxes and charges",
+  path: "/hotel/OliceZipKoramangala",
+  };
 function Places1()
 {
     
@@ -496,6 +557,18 @@ function Places1()
   );
 
 }
+const hotel6 = {
+    review: "⭐⭐⭐⭐",
+    name: "FabHotel Royal Stay",
+    location: "Bengaluru, India",
+    image: "https://i.pinimg.com/736x/a0/a3/95/a0a39500693515a8f772529f74352070.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 1,622",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/FabHotelRoyalStay",
+  };
 function Places2()
 {
     
@@ -592,6 +665,18 @@ function Places2()
   );
 
 }
+const hotel7 = {
+    review: "⭐⭐⭐⭐",
+    name: "Green Meadows Resort",
+    location: "Chennai, India",
+    image: "https://i.pinimg.com/736x/85/5e/36/855e365e8387794118e3e3e7404356c6.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+   day: "1 day,2 adults",
+    rupees: "₹ 1,792",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/GreenMeadowsResort",
+  };
 function Places3()
 {
     
@@ -689,6 +774,18 @@ function Places3()
   );
 
 }
+const hotel8 = {
+   review: "⭐⭐⭐⭐",
+    name: "Raj Park Hotel",
+   location: "Chennai, India",
+   image: "https://i.pinimg.com/736x/5c/7c/5e/5c7c5e92a20e7090737949a6a62b80fe.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 2,499",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/RajParkHotel",
+  };
 function Places4()
 {
   const [activeTab, setActiveTab] = useState(0);
@@ -784,6 +881,18 @@ function Places4()
   );
 
 }
+const hotel9 = {
+    review: "⭐⭐⭐⭐",
+   name: "The St. Regis Mumbai",
+   location: "Mumbai, India",
+    image: "https://i.pinimg.com/736x/4c/f9/3b/4cf93b54356d8b86d7a3e575b0c5f395.jpg",
+    rating: "6.7",
+   reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 12,750",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/TheSt.RegisMumbai",
+  };
 function Places5()
 {
   const [activeTab, setActiveTab] = useState(0);
@@ -878,6 +987,18 @@ function Places5()
      </>
   );
 }
+const hotel10 = {
+   review: "⭐⭐⭐⭐",
+    name: "Taj Falaknuma Palace",
+    location: "Hyderabad, India",
+    image: "https://i.pinimg.com/736x/4d/5c/48/4d5c48e80b16a38806d77542874d6c71.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 22,950",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/TajFalaknumaPalace",
+  };
 function Places6()
 {
   const [activeTab, setActiveTab] = useState(0);
@@ -972,6 +1093,18 @@ function Places6()
     </>
   );
 }
+const hotel11 = {
+    review: "⭐⭐⭐⭐",
+   name: "Hyatt Ronil Goa",
+    location: "Goa, India",
+    image: "https://i.pinimg.com/736x/f8/f0/71/f8f071b34a4699fdd7636f99a07a0895.jpg",
+   rating: "6.7",
+    reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 4,000",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/HyattRonilGoa",
+  };
 function Places7()
 {
   const [activeTab, setActiveTab] = useState(0);
@@ -1066,6 +1199,18 @@ function Places7()
      </>
   );
 }
+const hotel12 = {
+    review: "⭐⭐⭐⭐",
+    name: "Howard Johnson by Wyndham",
+    location: "Kolkata, India",
+    image: "https://i.pinimg.com/736x/e0/25/ba/e025bad2d7b207640812d2261b653516.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 2,200",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/HowardJohnsonbyWyndham",
+  };
 function Places8()
 {
   const [activeTab, setActiveTab] = useState(0);
@@ -1160,6 +1305,18 @@ function Places8()
     </>
   );
 }
+const hotel13 = {
+    review: "⭐⭐⭐⭐",
+    name: "Hotel ORSQUARE HOMES",
+    location: "Himachal Pradesh, India",
+    image: "https://i.pinimg.com/736x/d0/73/05/d07305e6d5c239b7f1720d41177207a6.jpg",
+    rating: "6.7",
+    reviews: "120 reviews",
+    day: "1 day,2 adults",
+    rupees: "₹ 3,000",
+    tax: "+₹120 taxes and charges",
+    path: "/hotel/HotelORSQUAREHOMES",
+  };
 function Places9()
 {
   const [activeTab, setActiveTab] = useState(0);

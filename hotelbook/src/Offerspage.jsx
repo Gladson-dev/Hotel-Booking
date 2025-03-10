@@ -1,11 +1,21 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Offerspage.css';
 
 function Offerpage() {
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const navigate = useNavigate();
+  
+ 
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; 
 
   const handleClaimClick = () => {
-    setPopupVisible(true);
+    if (isLoggedIn) {
+      setPopupVisible(true);
+    } else {
+      alert("Please log in to claim this coupon!");
+      navigate('/login');
+    }
   };
 
   const closePopup = () => {
@@ -45,6 +55,7 @@ function Offerpage() {
   ];
 
   return (
+    <div className="contains">
     <div className="container">
       <div className="pic">
         <h1 className="title">Today's Deals</h1>
@@ -75,14 +86,23 @@ function Offerpage() {
         </div>
       )}
     </div>
+    </div>
   );
 }
 
 function Offering() {
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const navigate = useNavigate();
+  
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; 
 
   const handleClaimClick = () => {
-    setPopupVisible(true);
+      if (isLoggedIn) {
+          setPopupVisible(true);
+        } else {
+          alert("Please log in to claim this coupon!");
+          navigate('/login');
+        }
   };
 
   const closePopup = () => {
@@ -111,6 +131,7 @@ function Offering() {
   ];
 
   return (
+    <div className="contains">
     <div className="container">
       <div className="deals-grid">
         {deals.map((deal) => (
@@ -136,6 +157,7 @@ function Offering() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

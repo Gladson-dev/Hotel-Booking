@@ -1,7 +1,10 @@
 
+.contains{
+   background-color: #212121;
+}
 .container {
     padding: 20px;
-    background-color: #f3f4f6;
+    background-color: #212121;
     min-height: 90vh;
     text-align: center;
     display: flex;

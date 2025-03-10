@@ -91,3 +91,55 @@ body {
   .signup-text a:hover {
     text-decoration: underline;
   }
+
+.logged-in {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-box {
+  background: rgba(255, 255, 255, 0.8); 
+  text-align: center;
+  border-radius: 15px; 
+  padding: 40px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  width: auto;
+}
+
+.welcome-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.welcome-icon {
+  font-size: 3rem; 
+  color: #333;
+  margin-right: 15px;
+}
+
+.welcome-message {
+  font-size: 1.8rem; 
+  color: #333;
+}
+
+.logout-btn {
+  background-color: #d9534f; 
+  border-color: #d43f3a;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.logout-icon {
+  margin-right: 8px; 
+}
+.login-title{
+    color: #007bff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}

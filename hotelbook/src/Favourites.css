@@ -1,0 +1,73 @@
+.favorites-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 55px;
+    justify-content: left;
+    padding: 20px;
+    margin-top: 15px;
+  }
+  
+  .favorite-card {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 350px; 
+    height: 400px;
+    cursor: pointer;
+  }
+  
+  .hotels-image {
+    width: 100%;
+    height: 200px; 
+    object-fit: cover;
+  }
+  
+  .hotels-details {
+    padding: 0px;
+    line-height: 0.6;
+  }
+  
+  .hotel-details h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    
+  }
+  .ratinges{
+    background: blue;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: smaller;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #f44336;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+    transition: background 0.3s ease;
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 1);
+}
+  .hotels-charge{
+     margin-left: 195px;
+     line-height: 0.1;
+  }
+  .rupee{
+    font-size:80%;
+    color:lightslategrey;
+    margin-left: 10px;
+  }
+  .money{
+   margin-left: 100px;
+  }

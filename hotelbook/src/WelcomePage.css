@@ -1,0 +1,78 @@
+.welcome-container {
+    text-align: center;
+    background: linear-gradient(to right, #4a154b, #a348a6);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    background: #ffcc00;
+    color: #4a154b;
+    font-size: 1.5rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 200px;
+}
+
+.cta-button:hover {
+    background: #ffdd33;
+}
+
+.carousel-container {
+    width: 80%;
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 400px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+.testimonials {
+    padding: 40px;
+}
+
+.testimonial-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 10px auto;
+}
+
+.testimonial-card p {
+    font-size: 1.2rem;
+}
+
+.testimonial-card h4 {
+    margin-top: 10px;
+}
+
+
+.footers {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}

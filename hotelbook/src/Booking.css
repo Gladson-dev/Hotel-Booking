@@ -67,7 +67,36 @@
     font-weight: bold;
     margin-bottom: 5px; 
   }
+  .travelers-section {
+    margin-bottom: 20px;
+  }
   
+ 
+  .traveler-group-horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .traveler-item {
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
+    width: 30%;
+  }
+  .traveler-item label {
+    margin-bottom: 5px;
+  }
+  
+  .traveler-item select {
+    width: 100%; 
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: auto; 
+  }
   
   textarea {
     width: 100%;  

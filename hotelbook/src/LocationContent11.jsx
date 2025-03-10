@@ -1,9 +1,21 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { FaLocationDot } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { FaWifi, FaUsers, FaConciergeBell, FaDoorOpen, FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
+const defaultHotel = { 
+  review:"⭐⭐⭐⭐⭐",
+   name: "Hyatt Ronil Goa",
+  location: "Goa, India",
+  image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/566404228.jpg?k=87f62def4abf733fa6d2246e2cd61d86e4c75a10bb2219c4e1e097a4e853fe56&o=&hp=1",
+  rating:"8.6",
+  reviews:"5820 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 5,999",
+  tax:"+₹230 taxes and charges",
+  path:"/hotel/HyattRonilGoa",
+}; 
 function Overview11()
 {
     const images = [
@@ -19,6 +31,13 @@ function Overview11()
       ];
       const [isOpen,setIsOpen]=useState(false);
       const [selectedImage, setSelectedImage] = useState(null);
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        useEffect(() => {
+              const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+              const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+              setIsFavorite(isHotelFavorited);
+            }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -29,8 +48,23 @@ function Overview11()
       };
       const navigate = useNavigate();
       const [isFavorite, setIsFavorite] = useState(false); 
-      const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+         const toggleFavorite = () => {
+             setIsFavorite(!isFavorite);
+             let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+             if (!isFavorite) {
+               favorites.push(hotel);
+             } else {
+               favorites = favorites.filter((fav) => fav.name !== hotel.name);
+             }
+             localStorage.setItem('favorites', JSON.stringify(favorites));
+           };  
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
       return (
         <>
@@ -38,7 +72,7 @@ function Overview11()
           <div className="title-container">
             <h1>Hyatt Ronil Goa </h1>
             <p><FaLocationDot style={{ color: "red" }} />Calangute - Baga Road,, 403516 Calangute, India</p></div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button"onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -76,8 +110,19 @@ function Overview11()
           </div>
         </>
       );
-    
 }
+const hotel = {
+  review:"⭐⭐⭐⭐⭐",
+   name: "Hyatt Ronil Goa",
+  location: "Goa, India",
+  image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/566404228.jpg?k=87f62def4abf733fa6d2246e2cd61d86e4c75a10bb2219c4e1e097a4e853fe56&o=&hp=1",
+  rating:"8.6",
+  reviews:"5820 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 5,999",
+  tax:"+₹230 taxes and charges",
+  path:"/hotel/HyattRonilGoa",
+};
 function Info11()
 {
   const hotelRooms = [
@@ -255,4 +300,4 @@ function Reviews11()
     </>
   );
 }
-export {Overview11,Info11,Facilities11,Reviews11};
+export {Overview11,Info11,Facilities11,Reviews11,hotel};

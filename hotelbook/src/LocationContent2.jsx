@@ -1,16 +1,28 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { FaLocationDot } from "react-icons/fa6";
 import { TbDesk } from "react-icons/tb";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { MdOutlineCoffeeMaker ,MdOutlineWineBar } from "react-icons/md";
 import { FaWifi,  FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
 
-function Overview2()
+const defaultHotel = { 
+  review:"⭐⭐⭐",
+   name: "Vividus Hotel",
+  location: "Bengaluru, India",
+  image: "https://tse1.mm.bing.net/th?id=OIP._ZMDjdYaU_dmFFIa26UQ3QHaEK&pid=Api&P=0&h=180",
+  rating:"3.6",
+  reviews:"100 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 2,000",
+  tax:"+₹100 taxes and charges",
+  path:"/hotel/Vividus",
+};  
+function Overview2({ hotel = defaultHotel })
 {
     const images = [
-        { id: 1, src: "https://tse1.mm.bing.net/th?id=OIP._ZMDjdYaU_dmFFIa26UQ3QHaEK&pid=Api&P=0&h=180 ", alt: "Main Image", type: "large" },
+        { id: 1, src: hotel.image ||"https://tse1.mm.bing.net/th?id=OIP._ZMDjdYaU_dmFFIa26UQ3QHaEK&pid=Api&P=0&h=180 ", alt: "Main Image", type: "large" },
         { id: 2, src: "https://i.pinimg.com/474x/79/3c/80/793c80dbca50bf409d375973c1506498.jpg", alt: "Reception", type: "small" },
         { id: 3, src: "https://i.pinimg.com/474x/bb/cd/61/bbcd6163fde6f226c22350f28e2471c5.jpg", alt: "Room 1", type: "small" },
         { id: 4, src: "https://tse3.mm.bing.net/th?id=OIP.5TTPPEMuptzNhKujHF7TWwHaFj&pid=Api&P=0&h=180", alt: "Room 2", type: "small" },
@@ -23,6 +35,13 @@ function Overview2()
       const [isOpen,setIsOpen]=useState(false);
       const [isFavorite, setIsFavorite] = useState(false); 
       const [selectedImage, setSelectedImage] = useState(null);
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      useEffect(() => {
+          const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+          const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+          setIsFavorite(isHotelFavorited);
+        }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -32,9 +51,25 @@ function Overview2()
         setSelectedImage(null);
       };
       const navigate = useNavigate();
-      const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (!isFavorite) {
+      favorites.push(hotel);
+    } else {
+      favorites = favorites.filter((fav) => fav.name !== hotel.name);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  };
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
+      
       return (
         <>
         
@@ -43,7 +78,7 @@ function Overview2()
             <h1>Vividus Hotel</h1>
             <p><FaLocationDot style={{ color: "red" }} /> Gandhi Nagar, Bangalore,2.6 km away from  Bengaluru City Junction Railway Station, 2.8 km away from Majestic Bus Terminus, India</p>
             </div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button"onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -85,6 +120,18 @@ function Overview2()
       );
     
 }
+const hotel = {
+  review:"⭐⭐⭐",
+  name: "Vividus Hotel",
+ location: "Bengaluru, India",
+ image: "https://tse1.mm.bing.net/th?id=OIP._ZMDjdYaU_dmFFIa26UQ3QHaEK&pid=Api&P=0&h=180",
+ rating:"3.6",
+ reviews:"100 reviews",
+ day:"1 day,2 adults",
+ rupees:"₹ 2,000",
+ tax:"+₹100 taxes and charges",
+ path:"/hotel/Vividus",
+};
 function Info2()
 {
   const hotelRooms = [
@@ -264,4 +311,4 @@ function Reviews2()
     </>
   );
 }
-export {Overview2,Info2,Facilities2,Reviews2};
+export {Overview2,Info2,Facilities2,Reviews2,hotel};

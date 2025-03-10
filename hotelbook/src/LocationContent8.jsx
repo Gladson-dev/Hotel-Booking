@@ -1,9 +1,21 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { FaLocationDot } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { FaWifi, FaUsers, FaConciergeBell, FaDoorOpen, FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
+const defaultHotel = { 
+  review:"⭐⭐⭐",
+   name: "Raj Park Hotel",
+  location: "Chennai, India",
+  image: "https://res.cloudinary.com/simplotel/image/upload/x_0,y_0,w_4721,h_3541,r_0,c_crop,q_80,fl_progressive/w_825,f_auto,c_fit/raj-park-hotel---tirupati/Hotel_Raj_Park_-_Luxury_Hotel_in_Tirupati",
+  rating:"6.5",
+  reviews:"680 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 3,589",
+  tax:"+₹190 taxes and charges",
+  path:"/hotel/RajParkHotel",
+}; 
 function Overview8()
 {
     const images = [
@@ -19,6 +31,13 @@ function Overview8()
       ];
       const [isOpen,setIsOpen]=useState(false);
       const [selectedImage, setSelectedImage] = useState(null);
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+        setIsFavorite(isHotelFavorited);
+      }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -29,8 +48,23 @@ function Overview8()
       };
       const navigate = useNavigate(); 
        const [isFavorite, setIsFavorite] = useState(false); 
-      const toggleFavorite = () => {
+       const toggleFavorite = () => {
         setIsFavorite(!isFavorite);
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        if (!isFavorite) {
+          favorites.push(hotel);
+        } else {
+          favorites = favorites.filter((fav) => fav.name !== hotel.name);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      };  
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
       return (
         <>
@@ -38,7 +72,7 @@ function Overview8()
           <div className="title-container">
             <h1>Raj Park Hotel</h1>
             <p><FaLocationDot style={{ color: "red" }} /> No.180, T.T.K. Road , Alwarpet,, 600018 Chennai, India</p></div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -78,6 +112,18 @@ function Overview8()
       );
     
 }
+const hotel = {
+  review:"⭐⭐⭐",
+  name: "Raj Park Hotel",
+ location: "Chennai, India",
+ image: "https://res.cloudinary.com/simplotel/image/upload/x_0,y_0,w_4721,h_3541,r_0,c_crop,q_80,fl_progressive/w_825,f_auto,c_fit/raj-park-hotel---tirupati/Hotel_Raj_Park_-_Luxury_Hotel_in_Tirupati",
+ rating:"6.5",
+ reviews:"680 reviews",
+ day:"1 day,2 adults",
+ rupees:"₹ 3,589",
+ tax:"+₹190 taxes and charges",
+ path:"/hotel/RajParkHotel",
+};
 function Info8()
 {
   const hotelRooms = [
@@ -255,4 +301,4 @@ function Reviews8()
     </>
   );
 }
-export {Overview8,Info8,Facilities8,Reviews8};
+export {Overview8,Info8,Facilities8,Reviews8,hotel};

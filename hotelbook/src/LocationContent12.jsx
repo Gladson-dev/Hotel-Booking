@@ -1,9 +1,21 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { FaLocationDot } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { FaWifi, FaUsers, FaConciergeBell, FaDoorOpen, FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
+const defaultHotel = { 
+  review:"⭐⭐⭐⭐",
+   name: "Howard Johnson by Wyndham",
+  location: "Kolkata, India",
+  image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/532736202.jpg?k=0b29e46da6992251ace05bc20010d0ced5672f6bced208fc5aaf4939d258a6cd&o=&hp=1",
+  rating:"7.6",
+  reviews:"1620 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 4,779",
+  tax:"+₹198 taxes and charges",
+  path:"/hotel/HowardJohnsonbyWyndham",
+}; 
 function Overview12()
 {
     const images = [
@@ -19,6 +31,13 @@ function Overview12()
       ];
       const [isOpen,setIsOpen]=useState(false);
       const [selectedImage, setSelectedImage] = useState(null);
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        useEffect(() => {
+              const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+              const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+              setIsFavorite(isHotelFavorited);
+            }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -29,8 +48,23 @@ function Overview12()
       };
       const navigate = useNavigate();
       const [isFavorite, setIsFavorite] = useState(false); 
-      const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+          const toggleFavorite = () => {
+              setIsFavorite(!isFavorite);
+              let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+              if (!isFavorite) {
+                favorites.push(hotel);
+              } else {
+                favorites = favorites.filter((fav) => fav.name !== hotel.name);
+              }
+              localStorage.setItem('favorites', JSON.stringify(favorites));
+            };  
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
       return (
         <>
@@ -38,7 +72,7 @@ function Overview12()
           <div className="title-container">
             <h1>Hotel O R SQUARE HOMES</h1>
             <p><FaLocationDot style={{ color: "red" }} /> New Town Square Beside Spencer's Mall, 700136 Kolkata, India</p></div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -78,6 +112,18 @@ function Overview12()
       );
     
 }
+const hotel = {
+  review:"⭐⭐⭐⭐",
+  name: "Howard Johnson by Wyndham",
+ location: "Kolkata, India",
+ image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/532736202.jpg?k=0b29e46da6992251ace05bc20010d0ced5672f6bced208fc5aaf4939d258a6cd&o=&hp=1",
+ rating:"7.6",
+ reviews:"1620 reviews",
+ day:"1 day,2 adults",
+ rupees:"₹ 4,779",
+ tax:"+₹198 taxes and charges",
+ path:"/hotel/HowardJohnsonbyWyndham",
+};
 function Info12()
 {
   const hotelRooms = [
@@ -255,4 +301,4 @@ function Reviews12()
     </>
   );
 }
-export {Overview12,Info12,Facilities12,Reviews12};
+export {Overview12,Info12,Facilities12,Reviews12,hotel};

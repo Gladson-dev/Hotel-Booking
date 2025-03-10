@@ -143,4 +143,29 @@ body {
     background-image:url("https://i.pinimg.com/736x/82/00/bc/8200bc5bada3fc27cbe31e7d72d16e13.jpg") ;
     background-size: cover;
   }
-  
+
+
+
+.login-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+
+.login-redirect {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+input:disabled,
+textarea:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+button:disabled {
+  background-color: #cccccc; 
+  cursor: not-allowed;
+}
+

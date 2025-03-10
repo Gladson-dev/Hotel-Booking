@@ -1,10 +1,22 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState ,useEffect } from 'react';
 import { FaLocationDot } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation } from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { FaWifi, FaUsers, FaConciergeBell, FaDoorOpen, FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
-function Overview5()
+const defaultHotel = { 
+  review:"⭐⭐⭐",
+   name: "Olice Zip Koramangala",
+  location: "Bengaluru, India",
+  image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/545574068.jpg?k=be696306cdb63f5b166a27aabee4f7c4b9db8ad1cea82344b9c1c413824bb6c6&o=&hp=1",
+  rating:"4.7",
+  reviews:"220 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 2,005",
+  tax:"+₹150 taxes and charges",
+  path:"/hotel/OliceZipKoramangala",
+}; 
+function Overview5({ hotel = defaultHotel })
 {
     const images = [
         { id: 1, src: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/545574068.jpg?k=be696306cdb63f5b166a27aabee4f7c4b9db8ad1cea82344b9c1c413824bb6c6&o=&hp=1", alt: "Main Image", type: "large" },
@@ -19,6 +31,13 @@ function Overview5()
       ];
       const [isOpen,setIsOpen]=useState(false);
       const [selectedImage, setSelectedImage] = useState(null);
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+        setIsFavorite(isHotelFavorited);
+      }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -31,6 +50,21 @@ function Overview5()
       const [isFavorite, setIsFavorite] = useState(false); 
       const toggleFavorite = () => {
         setIsFavorite(!isFavorite);
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        if (!isFavorite) {
+          favorites.push(hotel);
+        } else {
+          favorites = favorites.filter((fav) => fav.name !== hotel.name);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      };  
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
       return (
         <>
@@ -38,7 +72,7 @@ function Overview5()
           <div className="title-container">
             <h1>Olice Zip Koramangala</h1>
             <p><FaLocationDot style={{ color: "red" }} /> Situated at No.21, Next to Life Style, 8th Block, Inner Ring Road, Koramangala, Bangalore, 560095, India.</p></div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -77,8 +111,19 @@ function Overview5()
           </div>
         </>
       );
-    
 }
+const hotel = {
+  review:"⭐⭐⭐",
+  name: "Olice Zip Koramangala",
+ location: "Bengaluru, India",
+ image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/545574068.jpg?k=be696306cdb63f5b166a27aabee4f7c4b9db8ad1cea82344b9c1c413824bb6c6&o=&hp=1",
+ rating:"4.7",
+ reviews:"220 reviews",
+ day:"1 day,2 adults",
+ rupees:"₹ 2,005",
+ tax:"+₹150 taxes and charges",
+ path:"/hotel/OliceZipKoramangala",
+};
 function Info5()
 {
   const hotelRooms = [
@@ -256,4 +301,4 @@ function Reviews5()
     </>
   );
 }
-export {Overview5,Info5,Facilities5,Reviews5};
+export {Overview5,Info5,Facilities5,Reviews5,hotel};

@@ -4,7 +4,7 @@ import "./index.css";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FiMenu } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa6";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { FaRegBookmark } from "react-icons/fa";
 
 export default function Header() {
   useEffect(() => {
@@ -93,8 +93,8 @@ export default function Header() {
                 <Link to="/favourites"  ><span className="heads">Favourites</span></Link >
                 </div>
                 <div className="dropdown-item">
-                  <AiOutlineQuestionCircle className="dropdown-icon" />
-                  <span>Help and support</span>
+                  <FaRegBookmark  className="dropdown-icon" />
+                  <Link to="/reserved"  > <span className="heads">Reserved</span></Link>
                 </div>
               </div>
               </nav>

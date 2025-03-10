@@ -1,10 +1,22 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { FaLocationDot } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { FaWifi, FaUsers, FaConciergeBell, FaDoorOpen, FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
-function Overview4()
+const defaultHotel = { 
+  review:"⭐⭐⭐",
+   name: "Hotel Chanchal Continental",
+  location: "New Delhi, India",
+  image: "https://pix10.agoda.net/hotelImages/104/10431/10431_14040510160018977622.jpg?s=1024x768",
+  rating:"5.8",
+  reviews:"620 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 3,845",
+  tax:"+₹160 taxes and charges",
+  path:"/hotel/HotelChanchalContinental",
+}; 
+function Overview4({ hotel = defaultHotel })
 {
     const images = [
         { id: 1, src: "https://pix10.agoda.net/hotelImages/104/10431/10431_14040510160018977622.jpg?s=1024x768", alt: "Main Image", type: "large" },
@@ -19,6 +31,13 @@ function Overview4()
       ];
       const [isOpen,setIsOpen]=useState(false);
       const [selectedImage, setSelectedImage] = useState(null);
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      useEffect(() => {
+              const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+              const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+              setIsFavorite(isHotelFavorited);
+            }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -26,11 +45,26 @@ function Overview4()
       const closePopup = () => {
         setIsOpen(false);
         setSelectedImage(null);
-      };
-      const navigate = useNavigate();  
+      }; 
       const [isFavorite, setIsFavorite] = useState(false); 
+      const navigate = useNavigate();
       const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+          setIsFavorite(!isFavorite);
+          let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+          if (!isFavorite) {
+            favorites.push(hotel);
+          } else {
+            favorites = favorites.filter((fav) => fav.name !== hotel.name);
+          }
+          localStorage.setItem('favorites', JSON.stringify(favorites));
+        };  
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
 
       return (
@@ -39,7 +73,7 @@ function Overview4()
           <div className="title-container">
             <h1>Hotel Chanchal Continental</h1>
             <p><FaLocationDot style={{ color: "red" }} /> 8524 Arakashan Road in the Paharganj area,New Delhi, India.</p></div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -78,8 +112,19 @@ function Overview4()
           </div>
         </>
       );
-    
 }
+const hotel = {
+  review:"⭐⭐⭐",
+  name: "Hotel Chanchal Continental",
+ location: "New Delhi, India",
+ image: "https://pix10.agoda.net/hotelImages/104/10431/10431_14040510160018977622.jpg?s=1024x768",
+ rating:"5.8",
+ reviews:"620 reviews",
+ day:"1 day,2 adults",
+ rupees:"₹ 3,845",
+ tax:"+₹160 taxes and charges",
+ path:"/hotel/HotelChanchalContinental",
+};
 function Info4()
 {
   const hotelRooms = [
@@ -257,4 +302,4 @@ function Reviews4()
     </>
   );
 }
-export {Overview4,Info4,Facilities4,Reviews4};
+export {Overview4,Info4,Facilities4,Reviews4,hotel};

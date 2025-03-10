@@ -1,10 +1,22 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { FaLocationDot } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { FaWifi, FaUsers, FaConciergeBell, FaDoorOpen, FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
-function Overview3()
+const defaultHotel = { 
+  review:"⭐⭐⭐⭐⭐",
+   name: "Hotel City Tower",
+  location: "Chennai, India",
+  image: "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201107211701376365-37eb7268b43f11e9adaa0a4cef95d023.jpg",
+  rating:"7.8",
+  reviews:"1200 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 4,845",
+  tax:"+₹150 taxes and charges",
+  path:"/hotel/HotelCityTower",
+}; 
+function Overview3({ hotel = defaultHotel })
 {
     const images = [
         { id: 1, src: "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201107211701376365-37eb7268b43f11e9adaa0a4cef95d023.jpg", alt: "Main Image", type: "large" },
@@ -19,6 +31,14 @@ function Overview3()
       ];
       const [isOpen,setIsOpen]=useState(false);
       const [selectedImage, setSelectedImage] = useState(null);
+      const [isFavorite, setIsFavorite] = useState(false); 
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+        setIsFavorite(isHotelFavorited);
+      }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -28,10 +48,25 @@ function Overview3()
         setSelectedImage(null);
       };
       const navigate = useNavigate();
-      const [isFavorite, setIsFavorite] = useState(false); 
       const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+          setIsFavorite(!isFavorite);
+          let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+          if (!isFavorite) {
+            favorites.push(hotel);
+          } else {
+            favorites = favorites.filter((fav) => fav.name !== hotel.name);
+          }
+          localStorage.setItem('favorites', JSON.stringify(favorites));
+        };
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
+
       return (
         <>
           <div className="location-head">
@@ -39,7 +74,7 @@ function Overview3()
             <h1>Hotel City Tower</h1>
             <p><FaLocationDot style={{ color: "red" }} /> Chennai City Center,Egmore,Chennai-3.3 km,  Tamil Nadu, India</p>
             </div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -80,6 +115,18 @@ function Overview3()
       );
     
 }
+const hotel = {
+  review:"⭐⭐⭐⭐⭐",
+  name: "Hotel City Tower",
+ location: "Chennai, India",
+ image: "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/201107211701376365-37eb7268b43f11e9adaa0a4cef95d023.jpg",
+ rating:"7.8",
+ reviews:"1200 reviews",
+ day:"1 day,2 adults",
+ rupees:"₹ 4,845",
+ tax:"+₹150 taxes and charges",
+ path:"/hotel/HotelCityTower",
+};
 function Info3()
 {
   const hotelRooms = [
@@ -257,4 +304,4 @@ function Reviews3()
     </>
   );
 }
-export {Overview3,Info3,Facilities3,Reviews3};
+export {Overview3,Info3,Facilities3,Reviews3,hotel};

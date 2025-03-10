@@ -20,8 +20,8 @@ const handleImageClick = (location) => {
 };
 
   return (
-    <div className="container">
-      <h1 style={{ fontFamily:'Times new roman' ,fontSize:'25px'}}>Explore Indian Cities</h1>
+     <>
+      <h1 style={{ fontFamily:'Times new roman' ,fontSize:'25px',textAlign:'center'}}>Explore Indian Cities</h1>
       <div className="grid-container">
         {cities.map((city, index) => (
           <div key={index} className="city-card" onClick={() => {navigate(city.path),handleImageClick(city.name);}}  >
@@ -37,7 +37,7 @@ const handleImageClick = (location) => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

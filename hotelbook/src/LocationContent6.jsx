@@ -1,10 +1,22 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { FaLocationDot } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { FaWifi, FaUsers, FaConciergeBell, FaDoorOpen, FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
-function Overview6()
+const defaultHotel = { 
+  review:"⭐⭐⭐",
+   name: "Fab Hotel Royal Stay",
+  location: "Bengaluru, India",
+  image: "https://imgcld.yatra.com/ytimages/image/upload/t_hotel_mobileactualimage/v0006118512/Hotel/00188201/1_Facade_q_E3cTrv.jpg",
+  rating:"4.3",
+  reviews:"720 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 2,565",
+  tax:"+₹160 taxes and charges",
+  path:"/hotel/FabHotelRoyalStay",
+}; 
+function Overview6({ hotel = defaultHotel })
 {
     const images = [
         { id: 1, src: "https://imgcld.yatra.com/ytimages/image/upload/t_hotel_mobileactualimage/v0006118512/Hotel/00188201/1_Facade_q_E3cTrv.jpg", alt: "Main Image", type: "large" },
@@ -19,6 +31,13 @@ function Overview6()
       ];
       const [isOpen,setIsOpen]=useState(false);
       const [selectedImage, setSelectedImage] = useState(null);
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+        setIsFavorite(isHotelFavorited);
+      }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -31,6 +50,21 @@ function Overview6()
       const [isFavorite, setIsFavorite] = useState(false); 
       const toggleFavorite = () => {
         setIsFavorite(!isFavorite);
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        if (!isFavorite) {
+          favorites.push(hotel);
+        } else {
+          favorites = favorites.filter((fav) => fav.name !== hotel.name);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      };  
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
       return (
         <>
@@ -38,7 +72,7 @@ function Overview6()
           <div className="title-container">
             <h1>Fab Hotel Royal Stay</h1>
             <p><FaLocationDot style={{ color: "red" }} />A-97, Dayananda Colony Rd, Block A, Dayanand Colony, Bengaluru</p></div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -79,6 +113,18 @@ function Overview6()
       );
     
 }
+const hotel = {
+  review:"⭐⭐⭐",
+  name: "Fab Hotel Royal Stay",
+ location: "Bengaluru, India",
+ image: "https://imgcld.yatra.com/ytimages/image/upload/t_hotel_mobileactualimage/v0006118512/Hotel/00188201/1_Facade_q_E3cTrv.jpg",
+ rating:"4.3",
+ reviews:"720 reviews",
+ day:"1 day,2 adults",
+ rupees:"₹ 2,565",
+ tax:"+₹160 taxes and charges",
+ path:"/hotel/FabHotelRoyalStay",
+};
 function Info6()
 {
   const hotelRooms = [
@@ -256,4 +302,4 @@ function Reviews6()
     </>
   );
 }
-export {Overview6,Info6,Facilities6,Reviews6};
+export {Overview6,Info6,Facilities6,Reviews6,hotel};

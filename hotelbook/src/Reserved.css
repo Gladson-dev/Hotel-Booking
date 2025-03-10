@@ -1,0 +1,75 @@
+
+
+.reserved-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; 
+    padding: 20px;
+    background-color: #f7f7f7;
+  }
+  
+  .reserved-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 80%;
+    max-width: 800px; 
+    overflow: hidden; 
+    margin-bottom: 20px;
+  }
+  
+  .reserved-image {
+    width: 40%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .reserved-details {
+    padding: 20px;
+    width: 60%;
+  }
+  
+  .reserved-details h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  .reserved-details p {
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .reserved-details .fa-map-marker-alt {
+    margin-right: 5px;
+    color: #777;
+  }
+  .no-booking {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; 
+    padding: 20px;
+    background-color: #fff; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto; 
+    background-color: #FAF3E0;
+  }
+  
+  .no-booking h2 {
+    color: #555;
+    margin-bottom: 10px;
+    font-size: 1.5rem; 
+  }
+  
+  .no-booking div {
+      color: #888; 
+      font-size: 1rem; 
+  }

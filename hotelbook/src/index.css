@@ -195,24 +195,9 @@ nav button:hover {
 #link:hover{
   background-color:aliceblue;
 }
-.offer-container {
-  text-align: center;
-  margin-top: 20px;
+.main-page{
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); 
 }
-
-.offer-slider {
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-  overflow: hidden;
-}
-
-.offer-image {
-  width: 100%;
-  height: auto;
-  transition: opacity 0.5s ease-in-out;
-}
-
 .check{
   display: flex;
   align-items: center;
@@ -554,9 +539,10 @@ button[type="submit"]:hover {
   background-color: #0056b3;
 }
 .footer {
-  background-color: #f8f8f8;
+  background-color: #F8F1F1;
   padding: 20px 0;
   font-family: Arial, sans-serif;
+  height: 400px;
 }
 
 .footer-container {
@@ -600,7 +586,7 @@ button[type="submit"]:hover {
   justify-content: space-between;
   padding-top: 20px;
   border-top: 1px solid #ddd;
-  margin-top: 20px;
+  margin-top: 30px;
   background-color: #333;
   height:70px;
 }
@@ -630,13 +616,6 @@ button[type="submit"]:hover {
   color: #777;
 }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  padding: 20px;
-}
 
 .grid-container {
   display: grid;

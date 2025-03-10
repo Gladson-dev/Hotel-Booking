@@ -1,10 +1,22 @@
 import './Locationplaces.css';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { FaLocationDot } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { FaWifi, FaUsers, FaConciergeBell, FaDoorOpen, FaBath, FaTv, FaUtensils, FaShieldAlt } from "react-icons/fa";
-function Overview7()
+const defaultHotel = { 
+  review:"⭐⭐⭐",
+   name: "Green Meadows Resort",
+  location: "Chennai, India",
+  image: "https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/406496014.jpg?k=ca860540f9f5b0daa740ef789bec6d081c5ceb6ac3eaba21a50105b7050054d7&o=&s=1024x",
+  rating:"8.6",
+  reviews:"520 reviews",
+  day:"1 day,2 adults",
+  rupees:"₹ 3,999",
+  tax:"+₹190 taxes and charges",
+  path:"/hotel/GreenMeadowsResort",
+}; 
+function Overview7({ hotel = defaultHotel })
 {
     const images = [
         { id: 1, src: "https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/406496014.jpg?k=ca860540f9f5b0daa740ef789bec6d081c5ceb6ac3eaba21a50105b7050054d7&o=&s=1024x", alt: "Main Image", type: "large" },
@@ -19,6 +31,13 @@ function Overview7()
       ];
       const [isOpen,setIsOpen]=useState(false);
       const [selectedImage, setSelectedImage] = useState(null);
+      const location = useLocation();
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isHotelFavorited = favorites.some((fav) => fav.name === hotel.name);
+        setIsFavorite(isHotelFavorited);
+      }, [hotel.name]);
       const openPopup = (image) => {
         setSelectedImage(image);
         setIsOpen(true);
@@ -31,6 +50,21 @@ function Overview7()
       const [isFavorite, setIsFavorite] = useState(false); 
       const toggleFavorite = () => {
         setIsFavorite(!isFavorite);
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        if (!isFavorite) {
+          favorites.push(hotel);
+        } else {
+          favorites = favorites.filter((fav) => fav.name !== hotel.name);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      };  
+      const handleReserveClick = () => {
+        if (isLoggedIn) {
+          navigate("/bookingform");
+        } else {
+          alert("Please log in to make a reservation!");
+          navigate('/login', { state: { from: location.pathname } });
+        }
       };
       return (
         <>  
@@ -38,7 +72,7 @@ function Overview7()
           <div className="title-container">
             <h1>Green Meadows Resort</h1>
             <p><FaLocationDot style={{ color: "red" }} /> 4/364 A, Anna Salai, Palavakkam, Chennai, Tamil Nadu 600041, India.</p></div>
-            <button className="reserve-button" onClick={()=>navigate("/bookingform")}>Reserve</button>
+            <button className="reserve-button" onClick={handleReserveClick}>Reserve</button>
             <IoMdHeart
                         color={isFavorite ? "red" : "white"}
                         size={20}
@@ -78,6 +112,18 @@ function Overview7()
       );
     
 }
+const hotel = {
+  review:"⭐⭐⭐",
+  name: "Green Meadows Resort",
+ location: "Chennai, India",
+ image: "https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/406496014.jpg?k=ca860540f9f5b0daa740ef789bec6d081c5ceb6ac3eaba21a50105b7050054d7&o=&s=1024x",
+ rating:"8.6",
+ reviews:"520 reviews",
+ day:"1 day,2 adults",
+ rupees:"₹ 3,999",
+ tax:"+₹190 taxes and charges",
+ path:"/hotel/GreenMeadowsResort",
+};
 function Info7()
 {
   const hotelRooms = [
@@ -255,4 +301,4 @@ function Reviews7()
     </>
   );
 }
-export {Overview7,Info7,Facilities7,Reviews7};
+export {Overview7,Info7,Facilities7,Reviews7,hotel};
